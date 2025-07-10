@@ -9,6 +9,7 @@ import { GreanButton } from '@/components/ui/grean-button';
 import { GreanCard } from '@/components/ui/grean-card';
 import { TypingTextAnimation } from '@/components/animations/text/TypingTextAnimation';
 import { useState, useEffect, useRef } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Official Brand CSS from Brand Guidelines
 const brandCSS = `
@@ -193,8 +194,9 @@ const useIntersectionObserver = (options = {}) => {
 
 export default function GreenAbout({ noSeam = false }: GreenAboutProps) {
   const { isDark } = useTheme();
+  const isMobile = useIsMobile();
 
-  // Animation states for different card sections
+  // Animation states for different card sections (disabled on mobile)
   const mainCard = useIntersectionObserver();
   const distributionCards = useIntersectionObserver();
   const impactCards = useIntersectionObserver();
@@ -394,7 +396,7 @@ export default function GreenAbout({ noSeam = false }: GreenAboutProps) {
                   </p>
                   <div className="grid grid-cols-2 gap-2">
                     <div className="text-center">
-                      <div className="text-lg sm:text-xl font-bold text-[#3DD56D]">270k+</div>
+                      <div className="text-lg sm:text-xl font-bold text-[#3DD56D]">280k+</div>
                       <div className="text-xs typography-small text-slate-300">Systems deployed</div>
                     </div>
                     <div className="text-center">
@@ -920,7 +922,7 @@ export default function GreenAbout({ noSeam = false }: GreenAboutProps) {
             }`}
             style={{ animationDelay: impactCards.hasAnimated ? '0.1s' : '0s' }}
           >
-            <div className="text-4xl sm:text-5xl font-bold text-[#3dd56d] mb-2">11k+</div>
+            <div className="text-4xl sm:text-5xl font-bold text-[#3dd56d] mb-2">280k+</div>
             <div className="typography-h3 mb-2 text-gray-900 dark:text-white">Solar Systems</div>
             <div className="typography-small text-gray-600 dark:text-gray-400">Deployed across Ethiopia</div>
           </GreanCard>
