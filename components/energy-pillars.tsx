@@ -35,7 +35,7 @@ export function EnergyPillars() {
       textColor: "text-[#3DD56D]",
       services: ["Residential", "Smart Communities", "Sustainable Living"],
       description: "Empowering neighborhoods with premium solar energy solutions and smart grid integration.",
-      features: ["Energy audits", "community installations- engineered renewable energy solutions installation", "smart grid integration- backup system integration"],
+      features: ["Energy audits", "Engineered renewable energy solutions installation", "Smart grid integration- backup system integration"],
     },
     {
       title: "Commercial Energy Transition",
