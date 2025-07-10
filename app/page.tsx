@@ -11,6 +11,7 @@ import { useTheme } from "@/hooks/useTheme"
 import { TypingTextAnimation } from "@/components/animations/text/TypingTextAnimation"
 import { Zap } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 // Official Brand CSS from brand guidelines
 const brandCSS = `
@@ -157,9 +158,11 @@ function Header({ scrolled }: HeaderProps) {
 export default function HomePage() {
   const { isDark } = useTheme()
   const router = useRouter()
+  const isMobileDevice = useIsMobile()
   const [inverterOn, setInverterOn] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [heroLoaded, setHeroLoaded] = useState(false)
 
   // Loading state management
   const [isLoading, setIsLoading] = useState(true)
@@ -168,6 +171,9 @@ export default function HomePage() {
 
   const handleInverterChange = (on: boolean) => {
     setInverterOn(on)
+
+    // Reset hero loaded state when inverter changes
+    setHeroLoaded(false)
 
     // Enable scrolling when inverter is activated
     if (on) {
@@ -251,6 +257,14 @@ export default function HomePage() {
       window.removeEventListener('wheel', handleWheel)
     }
   }, [inverterOn, router])
+
+  // Mobile/Tablet Immediate Redirect: After inverter activation + hero loaded, redirect immediately
+  useEffect(() => {
+    if (!inverterOn || !heroLoaded || !isMobileDevice) return
+
+    console.log('Mobile/Tablet: Hero section loaded, redirecting immediately to /green...')
+    router.push('/green')
+  }, [inverterOn, heroLoaded, isMobileDevice, router])
 
   // Handle mobile detection for responsive Hero height
   useEffect(() => {
@@ -426,6 +440,13 @@ export default function HomePage() {
                 duration: 0.5,
                 ease: "easeInOut",
                 height: { duration: 0.6 },
+              }}
+              onAnimationComplete={() => {
+                // Mark hero as loaded when animation completes
+                if (inverterOn) {
+                  setHeroLoaded(true)
+                  console.log('Hero section animation completed - marked as loaded')
+                }
               }}
               className="w-full flex items-center justify-center overflow-hidden flex-shrink-0 leading-[1.85rem]"
               style={{
